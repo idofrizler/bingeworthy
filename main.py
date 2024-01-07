@@ -263,4 +263,7 @@ def main2():
         f.write("\n")
         f.close()
 
-main()
+
+if __name__ == '__main__':
+    st.set_option ('server.enableCORS', True)
+    main()
