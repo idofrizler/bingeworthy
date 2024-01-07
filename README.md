@@ -27,6 +27,7 @@ Bingeworthy is a project that helps you figure out whether to watch a TV show al
 ## Usage
 
 To run the code, execute the following command:
+
     ```bash
     python -m streamlit run main.py
     ```
