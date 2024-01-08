@@ -180,6 +180,7 @@ def main():
         st.write("No show found")
         return
     
+    st.write(f"Link to show page:")
     st.link_button(tv_show[0], f"https://www.rottentomatoes.com{tv_show[1]}")
 
     st.write(f"Seasons for {tv_show[0]}:")
