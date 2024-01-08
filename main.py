@@ -181,7 +181,7 @@ def main():
         return
     
     st.write(f"Link to show page:")
-    st.link_button(tv_show[0], f"https://www.rottentomatoes.com{tv_show[1]}")
+    st.link_button(tv_show[0], tv_show[1])
 
     st.write(f"Seasons for {tv_show[0]}:")
     seasons_info = get_score_per_season(*tv_show)
