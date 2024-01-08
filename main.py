@@ -180,6 +180,8 @@ def main():
         st.write("No show found")
         return
     
+    st.link_button(tv_show[0], f"https://www.rottentomatoes.com{tv_show[1]}")
+
     st.write(f"Seasons for {tv_show[0]}:")
     seasons_info = get_score_per_season(*tv_show)
     
@@ -265,5 +267,4 @@ def main2():
 
 
 if __name__ == '__main__':
-    st.set_option ('server.enableCORS', True)
     main()
