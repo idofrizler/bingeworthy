@@ -11,10 +11,10 @@ from opencensus.ext.azure.log_exporter import AzureLogHandler
 
 load_dotenv()
 
-connection_string = os.getenv('APPINSIGHTS_CONNECTION_STRING')
+appinsights_cs = os.getenv('APPLICATIONINSIGHTS_CONNECTION_STRING')
 
 logger = logging.getLogger(__name__)
-handler = AzureLogHandler(connection_string=connection_string)
+handler = AzureLogHandler(connection_string=appinsights_cs)
 logger.addHandler(handler)
 
 # query = input("Enter a show name: ")
