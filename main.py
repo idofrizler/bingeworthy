@@ -169,7 +169,8 @@ def main():
     # Use the show url to get the seasons info
     # Display the seasons info in a table
 
-    st.title("Rotten Tomatoes TV Show Ratings")
+    st.title("Welcome to Bingeworthy!")
+    st.subheader("Find out if a show is worth watching all the way through")
 
     query = st.text_input("Enter a show name:")
     if query == "":
