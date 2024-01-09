@@ -176,6 +176,8 @@ def main():
     if query == "":
         return
     
+    st.divider()
+
     tv_show = get_show_from_keyword(query)
     if tv_show is None:
         st.write("No show found")
@@ -195,27 +197,30 @@ def main():
 
     # if not all scores are numbers, return
     if not all(df["Score"].str.isnumeric()):
-        st.write("Incomplete Score Data")
+        st.subheader("Incomplete Score Data")
         return
 
     # turn score to integer
     df["Score"] = df["Score"].astype(int)
 
+    # Remove the word "Season" and convert to integer
+    df["Season"] = df["Season"].str.replace("Season ", "").astype(int)
+
     # show the scores as an altair graph. The Y-axis should be sorted by its integer value, not by its string value
     chart = alt.Chart(df).mark_line().encode(
-        x="Season",
-        y=alt.Y("Score", sort="-x")
+        x=alt.X("Season", sort="x", axis=alt.Axis(format='d', grid=False)),
+        y=alt.Y("Score", sort="-x", title="Score")
     )
 
     # add a red dotted threshold line at 80
     threshold = alt.Chart(pd.DataFrame({"threshold": [80]})).mark_rule(color="red", strokeDash=[5, 5]).encode(
-        y="threshold"
+        y=alt.Y("threshold", title=None)
     )
 
     # draw the chart
     st.altair_chart(chart + threshold, use_container_width=True)
     
-    st.header("Recommendation")
+    st.subheader("Recommendation")
     recommendation = categorize_show_improved(seasons_info)
     st.write(recommendation)
 
