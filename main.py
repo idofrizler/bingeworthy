@@ -1,8 +1,21 @@
+import os
+import logging
+from dotenv import load_dotenv
 import requests
 import bs4
 import pandas as pd
 import streamlit as st
 import altair as alt
+
+from opencensus.ext.azure.log_exporter import AzureLogHandler
+
+load_dotenv()
+
+connection_string = os.getenv('APPINSIGHTS_CONNECTION_STRING')
+
+logger = logging.getLogger(__name__)
+handler = AzureLogHandler(connection_string=connection_string)
+logger.addHandler(handler)
 
 # query = input("Enter a show name: ")
 
@@ -76,9 +89,7 @@ def get_show_from_keyword(query):
 
     return show_title, show_url
 
-def get_score_per_season(show_title, show_url):
-    print(f"Seasons for {show_title}:")
-    
+def get_score_per_season(show_title, show_url):   
     # trim any text before /tv/
     show_url = show_url[show_url.find("/tv/"):]
     
@@ -178,11 +189,17 @@ def main():
     
     st.divider()
 
+    # log the query that was entered with some leading text
+    logger.info(f"User searched for show: {query}")
+
     tv_show = get_show_from_keyword(query)
     if tv_show is None:
+        logger.warning(f"No show found for query: {query}")
         st.write("No show found")
         return
     
+    logger.info(f"Found show: {tv_show[0]}")
+
     st.write(f"Link to show page:")
     st.link_button(tv_show[0], tv_show[1])
 
