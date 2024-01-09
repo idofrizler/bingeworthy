@@ -6,10 +6,12 @@ Bingeworthy is a project that helps you figure out whether to watch a TV show al
 
 ## Installation
 
+0. Make sure you have [Docker](https://docs.docker.com/get-docker/) installed.
+
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/<your-username>/bingeworthy.git
+    git clone https://github.com/idofrizler/bingeworthy.git
     ```
 
 2. Navigate to the project directory:
@@ -18,10 +20,10 @@ Bingeworthy is a project that helps you figure out whether to watch a TV show al
     cd bingeworthy
     ```
 
-3. Install the dependencies:
+3. Build the docker image:
 
     ```bash
-    pip install -r requirements.txt
+    sudo docker build -t bingeworthy .
     ```
 
 ## Usage
@@ -29,5 +31,7 @@ Bingeworthy is a project that helps you figure out whether to watch a TV show al
 4. To run the code, execute the following command:
 
     ```bash
-    python -m streamlit run main.py
+    sudo docker run -p 8501:8501 bingeworthy
     ```
+
+5. The app will be available at http://localhost:8501
