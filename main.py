@@ -13,7 +13,7 @@ load_dotenv()
 
 appinsights_cs = os.getenv('APPLICATIONINSIGHTS_CONNECTION_STRING')
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("streamlit")
 handler = AzureLogHandler(connection_string=appinsights_cs)
 logger.addHandler(handler)
 
@@ -131,6 +131,10 @@ def get_score_per_season(show_title, show_url):
     # sort seasons by year, and print season names and value of the tomatometerscore attribute 
     seasons_info.sort(key=lambda season: season["year"])
 
+    # add an index field which is an integer starting from 1
+    for i in range(len(seasons_info)):
+        seasons_info[i]["index"] = i + 1
+
     return seasons_info
 
 def categorize_show_improved(seasons_list):
@@ -208,10 +212,11 @@ def main():
     
     # Write scores per season to a table
     df = pd.DataFrame(seasons_info)
-    df = df[["seasontitle", "year", "episodes", "tomatometerscore"]]
-    df.columns = ["Season", "Year", "Number of Episodes", "Score"]
+    df = df[["index", "seasontitle", "year", "episodes", "tomatometerscore"]]
+    df.columns = ["Index", "Season", "Year", "Number of Episodes", "Score"]
+    
     st.table(df)
-
+    
     # if not all scores are numbers, return
     if not all(df["Score"].str.isnumeric()):
         st.subheader("Incomplete Score Data")
@@ -220,18 +225,15 @@ def main():
     # turn score to integer
     df["Score"] = df["Score"].astype(int)
 
-    # Remove the word "Season" and convert to integer
-    df["Season"] = df["Season"].str.replace("Season ", "").astype(int)
-
     # show the scores as an altair graph. The Y-axis should be sorted by its integer value, not by its string value
     chart = alt.Chart(df).mark_line().encode(
-        x=alt.X("Season", sort="x", axis=alt.Axis(format='d', grid=False)),
+        x=alt.X("Index", sort="x", axis=alt.Axis(format='d', grid=False), title="Season"),
         y=alt.Y("Score", sort="-x", title="Score")
     )
 
     # add a red dotted threshold line at 80
     threshold = alt.Chart(pd.DataFrame({"threshold": [80]})).mark_rule(color="red", strokeDash=[5, 5]).encode(
-        y=alt.Y("threshold", title=None)
+        y=alt.Y("threshold")
     )
 
     # draw the chart
