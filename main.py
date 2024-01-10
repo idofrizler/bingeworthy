@@ -14,8 +14,11 @@ load_dotenv()
 appinsights_cs = os.getenv('APPLICATIONINSIGHTS_CONNECTION_STRING')
 
 logger = logging.getLogger(__name__)
-handler = AzureLogHandler(connection_string=appinsights_cs)
-logger.addHandler(handler)
+try:
+    handler = AzureLogHandler(connection_string=appinsights_cs)
+    logger.addHandler(handler)
+except:
+    pass
 
 # query = input("Enter a show name: ")
 
