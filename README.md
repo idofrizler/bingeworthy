@@ -23,7 +23,7 @@ Bingeworthy is a project that helps you figure out whether to watch a TV show al
 3. Build the docker image:
 
     ```bash
-    sudo docker build -t bingeworthy .
+    docker build -t bingeworthy .
     ```
 
 ## Usage
@@ -31,7 +31,7 @@ Bingeworthy is a project that helps you figure out whether to watch a TV show al
 4. To run the code, execute the following command:
 
     ```bash
-    sudo docker run -p 8501:8501 bingeworthy
+    docker run -p 8501:8501 bingeworthy
     ```
 
 5. The app will be available at http://localhost:8501
